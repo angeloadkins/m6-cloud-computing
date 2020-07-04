@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User List</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <h1>Users</h1>
+    <ol>
+    {% for user in users %}
+    <li><a href="/admin/modifyUser/{{ user.username }}"> {{ user.full_name }} ({{ user.username }}) </a></li>
+    {% endfor %}
+    </ol>
+  </body>
+</html>

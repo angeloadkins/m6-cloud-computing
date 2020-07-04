@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 export FLASK_ENV=development
-export FLASK_APP=gallery/ui/app.py
+export FLASK_APP=gallery.ui.app:app
 flask run --host=0.0.0.0

@@ -11,6 +11,10 @@ EXPOSE 5555
 EXPOSE 9191
 USER adkins
 
+#ENV IG_USER=image_gallery
+#ENV IG_DATABASE=image_gallery
+#ENV IG_PASSWD=simple
+
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=development
 CMD ["uwsgi", "--http", ":5555", "--module", "gallery.ui.app:app", "--master", "--processes", "4", "--threads", "2", "--stats", "0.0.0.0:9191"]

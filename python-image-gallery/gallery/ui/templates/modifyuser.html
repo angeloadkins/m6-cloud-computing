@@ -10,7 +10,7 @@
 	   <p>password = {{password}}</p>
 	   <p>Full name = {{fullname}}</p>
         <form action="/admin/modifyUser" method="GET">
-		username:<input name="user" value="{{user}}" required="required"/><br><br>
+		username:<input name="user" value="{{ user }}" required="required"/><br><br>
 		name:<input name="fullname" value="{{fullname}}"required="required"/><br><br>
 		password:<input name="password" value="{{password}}"required="required"/><br><br>
                 <input type="submit" value="Change name and password" />

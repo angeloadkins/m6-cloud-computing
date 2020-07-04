@@ -1,10 +1,17 @@
 from flask import Flask
 from flask import request
 from flask import render_template
-from .user_admin import list_users, option_one, delete_user_db, insert_user, modify_user_og
+from flask import session
+from flask import redirect
+#from .user_admin import list_users, option_one
+from ..data.user import User
+from ..data.postgres_user_dao import PostgresUserDAO
+from ..data.db import connect, delete_user_db, modify_user_og, insert_user
+from functools import wraps
 
 app = Flask(__name__)
-
+app.secret_key = b'123'
+connect()
 @app.route('/')
 def hello_world():
     return """
@@ -20,49 +27,66 @@ def hello_world():
 </html>
 """
 
-@app.route('/goodbye')
-def goodbye():
-    return 'Goodbye'
+@app.route('/invalidLogin')
+def invalidLogin():
+    return "Invalid"
 
-@app.route('/greet/<name>')
-def greet(name):
-    return 'Nice to meet you ' + name
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = get_user_dao().get_user_by_username(request.form["username"])
+        if user is None or user.password != request.form["password"]:
+            return redirect('/invalidLogin')
+        else:
+            session['username'] = request.form["username"]
+            return redirect('/admin')
+    else:
+        return render_template('login.html')
 
-@app.route('/add/<int:x>/<int:y>', methods = ['GET'])
-def add(x, y):
-    return 'The sum is ' + str(x + y)
+def get_user_dao():
+    return PostgresUserDAO()
 
-@app.route('/mult', methods=['POST'])
-def mult():
-    x = request.form['x']
-    y = request.form['y']
-    return 'The product is ' + str(x*y)
+@app.route('/admin/users')
+def users():
+    if not check_admin():
+        return redirect('/login')
+    return render_template('users.html', users=get_user_dao().get_users())
 
-@app.route('/calculator/<personsName>')
-def calculator(personsName):
-    return render_template('calculator.html', name=personsName)
-   
+@app.route('/debugSession')
+def debugSession():
+    result = ""
+    for key, value in session.items():
+        result += key+"->"+str(value)+"<br />"
+    return result
+
+def check_admin():
+    return 'username' in session and session['username'] == 'steve'
+
 
 @app.route('/admin')
 def mainAdmin():
-    list = list_users()
-    return render_template('admin.html', numbers=list)
+    if not check_admin():
+        return redirect('/login')
+    return render_template('admin.html', users=get_user_dao().get_users())
 
-@app.route('/admin/hello')
-def hello_test():
-    return render_template('hello_test.html')
 
 @app.route('/admin/delete/<string:user>')
-def delete_user(user):
+def delete_user(user): 
+    if not check_admin():
+        return redirect('/login')
     delete_user_db(user)
     return mainAdmin()
 
 @app.route('/admin/addUser')
 def add_new_user():
+    if not check_admin():
+        return redirect('/login')
     return render_template('adduser.html')
 
 @app.route('/admin/newUser')
 def new_user():
+    if not check_admin():
+        return redirect('/login')
     y = request.args['user']
     x = request.args['fullname']
     z = request.args['password']
@@ -71,6 +95,8 @@ def new_user():
 
 @app.route('/admin/modifyUser/<string:user>/<string:password>/<string:fullname>')
 def modifyUser(user, password, fullname):
+    if not check_admin():
+        return redirect('/login')
     return render_template('modifyuser.html', user=user, password=password, fullname=fullname)
 
 @app.route('/admin/modifyUser')

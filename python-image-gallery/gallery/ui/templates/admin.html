@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Hello</title>
+      <meta charset="utf-8" />
+   </head>
+   <body>
+     <h1>Hello and please view the users!</h1>
+     <h1>You can view, edit, and delete</h1><br><br>
+     <ul>
+	     {% for number in numbers %}
+	     <li><a  href="/admin/modifyUser/{{number[0]}}/{{number[1]}}/{{number[2]}}">{{number[0]}}</a> <a href="/admin/delete/{{number[0]}}"> Delete</li>
+	     {% endfor %}
+     </ul>
+     <a href="/admin/addUser">Add User</a>
+   </body>
+</html>

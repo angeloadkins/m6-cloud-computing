@@ -1,0 +1,16 @@
+FROM ubuntu:latest
+
+RUN apt-get update -y && apt-get install -y python3 python3-pip libpcre3 libpcre3-dev
+
+COPY python-image-gallery /python-image-gallery
+WORKDIR /python-image-gallery
+RUN pip3 install -r requirements.txt
+RUN useradd -m adkins
+
+EXPOSE 5555
+EXPOSE 9191
+USER adkins
+
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=development
+CMD ["uwsgi", "--http", ":5555", "--module", "gallery.ui.app:app", "--master", "--processes", "4", "--threads", "2", "--stats", "0.0.0.0:9191"]

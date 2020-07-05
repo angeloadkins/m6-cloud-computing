@@ -1,6 +1,7 @@
 import psycopg2
 import json
 from ..aws.secrets import get_secret_image_gallery
+import os
 
 connection = None
 
@@ -24,6 +25,7 @@ def connect():
     global connection
     secret = get_secret()
     connection = psycopg2.connect(host=get_host(secret), dbname=get_dbname(secret), user=get_username(secret), password=get_password(secret))
+   # connection = psycopg2.connect(host=os.environ['PG_HOST'], dbname=os.environ['IG_DATABASE'], user=os.environ['IG_USER'], password=os.environ['IG_PASSWD'])
 
 def execute(query, args=None):
     global connection

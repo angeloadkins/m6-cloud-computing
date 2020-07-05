@@ -5,16 +5,19 @@
       <meta charset="utf-8" />
    </head>
    <body>
-	   <h1>Hello, Please change the name and password of user {{user}}</h1>
+	   <h1>Hello, Please change the name and password of user {{ user }}</h1>
 	   <h1>DO NOT CHANGE THE USERNAME!</h1>
-	   <p>password = {{password}}</p>
-	   <p>Full name = {{fullname}}</p>
+	   <p>password = {{ password }}</p>
+	   <p>Full name = {{ fullname }}</p>
         <form action="/admin/modifyUser" method="GET">
-		username:<input name="user" value="{{ user }}" required="required"/><br><br>
-		name:<input name="fullname" value="{{fullname}}"required="required"/><br><br>
-		password:<input name="password" value="{{password}}"required="required"/><br><br>
+		username:<input name="user" value="{{ username }}" required="required"/><br><br>
+		name:<input name="fullname" value="{{ fullname }}"required="required"/><br><br>
+		password:<input name="password" value="{{ password }}"required="required"/><br><br>
                 <input type="submit" value="Change name and password" />
-
         </form>
+	<br>
+    <a href="/mainMenu">Return to main menu</a>
+    <br>
+    <a href="/logout">Logout</a>
    </body>
 </html>

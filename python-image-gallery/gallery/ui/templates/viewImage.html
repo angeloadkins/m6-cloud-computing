@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+	<h1>View Your Photo(s) {{ username }}</h1>
+    {% for user in users %}
+    <img src="https://adkins-bucket-2.s3-us-west-1.amazonaws.com/{{ user }}" alt="Random picture" width="500" height="600">
+    {% endfor %}
+    <br>
+    <a href="/mainMenu">Return to main menu</a>
+    <br>
+    <a href="/logout">Logout</a>
+</body>
+
+</html>

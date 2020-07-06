@@ -63,7 +63,7 @@ def debugSession():
     return result
 
 def check_admin():
-    return 'username' in session and session['username'] == 'steve'
+    return 'username' in session and session['username'] == 'dongji'
 
 
 @app.route('/admin')

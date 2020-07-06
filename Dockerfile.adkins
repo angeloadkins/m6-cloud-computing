@@ -19,6 +19,9 @@ ENV IG_PASSWD=simple
 ENV S3_IMAGE_BUCKET=adkins-bucket-2
 ENV IG_PASSWD_FILE=/mnt/secrets/postgres_passwd
 
+#Link to dockerhub
+# https://hub.docker.com/repository/docker/angeloadkins/python-image-gallery/general
+
 
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=development
